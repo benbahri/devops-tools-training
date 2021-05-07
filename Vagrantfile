@@ -3,7 +3,6 @@
 
 $script_inject_pk =<<-'SCRIPT'
     cat /vagrant/setup/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
-    cat /vagrant/setup/hosts >> /etc/ansible/hosts
 SCRIPT
 
 Vagrant.configure("2") do |config|
@@ -19,9 +18,10 @@ Vagrant.configure("2") do |config|
     subconfig.vbguest.auto_update = false
     subconfig.vm.provision "file", source: "setup/id_rsa", destination: ".ssh/id_rsa"
     subconfig.vm.provision :shell, path: 'setup/lab_setup.sh'
+    subconfig.vm.provision :shell, inline: "cat /vagrant/setup/hosts >> /etc/ansible/hosts"
   end
 
-  (1..1).each do |i|
+  (1..2).each do |i|
     config.vm.define "ansible-node0#{i}" do |subconfig|
       subconfig.vm.box = "centos/7"
       subconfig.vm.hostname = "node0#{i}"
@@ -30,6 +30,9 @@ Vagrant.configure("2") do |config|
       subconfig.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: ".git/"
       subconfig.vbguest.auto_update = false
       subconfig.vm.provision "shell", inline: $script_inject_pk
+      subconfig.vm.provider "virtualbox" do |vb|
+        vb.memory = "2048"
+      end
     end
   end
 

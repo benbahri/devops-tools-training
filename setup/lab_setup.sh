@@ -14,3 +14,5 @@ chmod 400 .ssh/id_rsa
 ansible-galaxy install geerlingguy.java
 ansible-galaxy install infopen.openjdk-jdk
 ansible-galaxy install gantsign.maven
+ansible-galaxy install lrk.sonarqube
+ansible-galaxy install robertdebock.artifactory

@@ -1,0 +1,15 @@
+- hosts: servers
+  become: yes
+  vars:
+    java_packages:
+      - java-1.8.0-openjdk*
+  pre_tasks:
+    - name: Install package dependencies.
+      package:
+        name: "{{ item }}"
+        state: "present"
+      with_items:
+        - unzip
+  roles:
+    - geerlingguy.java
+    - lrk.sonarqube
