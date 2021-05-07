@@ -3,6 +3,7 @@
 
 $script_inject_pk =<<-'SCRIPT'
     cat /vagrant/setup/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
+    cat /vagrant/setup/hosts >> /etc/ansible/hosts
 SCRIPT
 
 Vagrant.configure("2") do |config|
@@ -17,7 +18,7 @@ Vagrant.configure("2") do |config|
 	end
     subconfig.vbguest.auto_update = false
     subconfig.vm.provision "file", source: "setup/id_rsa", destination: ".ssh/id_rsa"
-    subconfig.vm.provision :shell, path: 'lab_setup.sh'
+    subconfig.vm.provision :shell, path: 'setup/lab_setup.sh'
   end
 
   (1..1).each do |i|
