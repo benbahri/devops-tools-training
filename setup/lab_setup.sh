@@ -3,9 +3,9 @@ sudo yum -y install epel-release
 sudo yum -y install ansible
 
 echo "
-10.0.0.10 ansible
-10.0.0.21 node01
-10.0.0.22 node02
+192.168.33.10 master
+192.168.33.21 node01
+192.168.33.22 node02
 " >> /etc/hosts
 
 chmod 400 .ssh/id_rsa

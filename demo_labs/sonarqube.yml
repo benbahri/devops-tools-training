@@ -1,4 +1,4 @@
-- hosts: servers
+- hosts: dev
   become: yes
   vars:
     java_packages:

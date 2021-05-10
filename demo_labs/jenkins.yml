@@ -1,9 +1,23 @@
 - hosts: jenkins
   become: true
   vars:
-    java_packages:
-      - java-1.8.0-openjdk*
-
+    - java_packages: java-1.8.0-openjdk*
+    - java_version: 8
+    - java_base_path: "/usr/lib/jvm"
   roles:
     - role: geerlingguy.java
     - role: geerlingguy.jenkins
+    - role: gantsign.maven
+  tasks:
+    - name: Find path for new JAVA home
+      shell: '{ find -L {{java_base_path}} -type f -path "{{java_base_path}}/java-1.{{java_version}}*openjdk*/jre/bin/java"; find -L {{java_base_path}} -type f -path "{{java_base_path}}/java-{{java_version}}*openjdk*/jre/bin/java"; } | head -n 1'
+      register: java_home_path
+      changed_when: false
+
+    - name: Register JAVA_HOME env variable
+      lineinfile: dest=/etc/profile regexp="^(export JAVA_HOME=)" state=present line="export JAVA_HOME={{java_home_path.stdout | replace('/bin/java','')}}"
+    - name: install utilities
+      yum:
+        name: "{{item}}"
+      loop:
+        - git
