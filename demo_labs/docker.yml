@@ -1,0 +1,10 @@
+- hosts: dev
+  become: yes
+  roles:
+  - geerlingguy.docker
+  tasks:
+  - name: add vagrant user to docker group
+    user:
+      name: vagrant
+      groups: docker
+      append: yes

@@ -1,0 +1,9 @@
+- hosts: jenkins
+  become: true
+  vars:
+    java_packages:
+      - java-1.8.0-openjdk*
+
+  roles:
+    - role: geerlingguy.java
+    - role: geerlingguy.jenkins

@@ -16,3 +16,5 @@ ansible-galaxy install infopen.openjdk-jdk
 ansible-galaxy install gantsign.maven
 ansible-galaxy install lrk.sonarqube
 ansible-galaxy install robertdebock.artifactory
+ansible-galaxy install geerlingguy.jenkins
+ansible-galaxy install geerlingguy.docker
